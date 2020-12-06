@@ -19,5 +19,5 @@ print(min(4,6)) # smallest number
 print(round(3.2)) # round up/down
 
 print(floor(3.7)) # round down
-print(ciel(3.3)) # round up
+print(ceil(3.3)) # round up
 print(sqrt(32)) # square root
