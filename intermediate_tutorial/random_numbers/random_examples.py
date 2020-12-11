@@ -33,5 +33,3 @@ a = secrets.randbits(4) # produce a random integer with k random bits
 print(a) #1010
 
 a = secrets.choice(mylist) 
-
-
