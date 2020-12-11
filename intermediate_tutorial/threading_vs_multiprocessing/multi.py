@@ -1,5 +1,6 @@
 from multiprocessing import Process
 import os
+import time
 
 def square_numbers():
     for i in range(100):
@@ -29,7 +30,7 @@ from threading import Thread
 threads = []
 num_threads = 10
 
-for i in num(threads):
+for i in range(num_threads):
     t = Thread(target=square_numbers)
     threads.append(t)
 
