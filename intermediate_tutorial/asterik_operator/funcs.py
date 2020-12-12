@@ -32,4 +32,4 @@ dict_a = {'a': 1, 'b': 2}
 dict_b = {'c': 3}
 
 mydict = {**dict_a, **dict_b}
-print(my_dict)
+print(mydict)
