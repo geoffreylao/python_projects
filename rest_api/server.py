@@ -36,15 +36,58 @@ def people():
     return jsonify(results)
 
 #TODO: add a POST endpoint for adding people 
-#@app.route('/people', methods=['PUT'])
-#def update():
+@app.route('/add', methods=['GET', 'POST'])
+def insert():
+    query = "INSERT INTO people VALUES ( 1, 'luigi', 69, 'jumper')"
+
+    conn = sqlite3.connect('people.db')
+    conn.row_factory = dict_factory
+    cur = conn.cursor()
+
+    cur.execute(query)
+    conn.commit()
+
+    query = "SELECT * FROM people"
+    results = cur.execute(query).fetchall()
+    return jsonify(results)
 
 #TODO: add a DELETE endpoint for removing people 
-#@app.route('/people', methods=['PUT'])
-#def update():
+@app.route('/remove', methods=['GET', 'POST'])
+def delete():
+    query = "DELETE FROM people WHERE id = 1"
+
+    conn = sqlite3.connect('people.db')
+    conn.row_factory = dict_factory
+    cur = conn.cursor()
+
+    cur.execute(query)
+    conn.commit()
+
+    query = "SELECT * FROM people"
+    results = cur.execute(query).fetchall()
+    return jsonify(results)
 
 #TODO: add a PUT endpoint for updating people 
-#@app.route('/people', methods=['PUT'])
-#def update():
+@app.route('/update', methods=['PUT', 'GET', 'POST'])
+def update():
+    query = "UPDATE people SET name = 'wario' WHERE name = 'mario'"
+
+    conn = sqlite3.connect('people.db')
+    conn.row_factory = dict_factory
+    cur = conn.cursor()
+
+    cur.execute(query)
+    conn.commit()
+
+    query = "SELECT * FROM people"
+    results = cur.execute(query).fetchall()
+    return jsonify(results)
+
+
+@app.route('/test', methods=['GET','POST'])
+def test():
+    if request.method == 'POST':
+        username = request.form['username']
+    return "test page"
 
 app.run()
