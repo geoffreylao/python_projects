@@ -90,6 +90,4 @@ def test():
         username = request.form['username']
     return "test page"
 
-    test
-
 app.run()
