@@ -6,7 +6,7 @@ from flask import (
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask.db import get_db
+from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -22,13 +22,13 @@ def register():
             error = 'Username is requred.'
         elif not password:
             error = 'Password is required.'
-        elif db.excecute(
+        elif db.execute(
             'SELECT id FROM user WHERE username = ?', (username,)
         ).fetchone() is not None:
             error = 'User {} is already registered'.format(username)
 
         if error is None:
-            db.excecute(
+            db.execute(
                 'INSERT INTO user (username, password) VALUES (?, ?)',
                 (username, generate_password_hash(password))
             )
@@ -46,7 +46,7 @@ def login():
         password = request.form['password']
         db = get_db()
         error = None
-        user = db.excecute(
+        user = db.execute(
             'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
 
