@@ -2,8 +2,8 @@ import sqlite3
 from sqlite3 import Error
 
 
-CREATE_TABLE = """ CREATE TABLE IF NOT EXISTS people (
-                                        id integer PRIMARY KEY,
+CREATE_TABLE = """ CREATE TABLE people (
+                                        id integer PRIMARY KEY AUTOINCREMENT,
                                         name text NOT NULL,
                                         age integer,
                                         occupation text

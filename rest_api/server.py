@@ -1,6 +1,7 @@
 import flask
 from flask import request, jsonify
 import sqlite3
+import json
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -36,58 +37,53 @@ def people():
     return jsonify(results)
 
 #TODO: add a POST endpoint for adding people 
-@app.route('/add', methods=['GET', 'POST'])
+@app.route('/add', methods=['POST'])
 def insert():
-    query = "INSERT INTO people VALUES ( 1, 'luigi', 69, 'jumper')"
+    person = request.json
+
+    name = person["name"]
+    age = person["age"]
+    occupation = person["occupation"]
+
+    params = (name, age, occupation)
 
     conn = sqlite3.connect('people.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
 
-    cur.execute(query)
+    cur.execute("INSERT INTO people VALUES (NULL, ?, ?, ?)", params)
     conn.commit()
-
-    query = "SELECT * FROM people"
-    results = cur.execute(query).fetchall()
-    return jsonify(results)
+    return(jsonify(request.json))
 
 #TODO: add a DELETE endpoint for removing people 
-@app.route('/remove', methods=['GET', 'POST'])
+@app.route('/remove', methods=['POST'])
 def delete():
-    query = "DELETE FROM people WHERE id = 1"
-
+    person_id = request.json["id"]
+    
     conn = sqlite3.connect('people.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
 
-    cur.execute(query)
+    cur.execute(f"DELETE FROM people WHERE id = {person_id}")
     conn.commit()
 
-    query = "SELECT * FROM people"
-    results = cur.execute(query).fetchall()
-    return jsonify(results)
+    return(jsonify(request.json))
 
 #TODO: add a PUT endpoint for updating people 
-@app.route('/update', methods=['PUT', 'GET', 'POST'])
+@app.route('/update', methods=['PUT', 'POST'])
 def update():
     query = "UPDATE people SET name = 'wario' WHERE name = 'mario'"
 
+    person_id = request.json["id"]
+    name = request.json["name"]
+
     conn = sqlite3.connect('people.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
 
-    cur.execute(query)
+    cur.execute(f"UPDATE people SET name = \"{name}\" WHERE id = {person_id}")
     conn.commit()
 
-    query = "SELECT * FROM people"
-    results = cur.execute(query).fetchall()
-    return jsonify(results)
-
-
-@app.route('/test', methods=['GET','POST'])
-def test():
-    if request.method == 'POST':
-        username = request.form['username']
-    return "test page"
+    return(jsonify(request.json))
 
 app.run()
