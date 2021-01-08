@@ -34,7 +34,11 @@ def people():
     cur = conn.cursor()
 
     results = cur.execute(query).fetchall()
-    return jsonify(results)
+    
+    result = {"message" : "succcess"}
+
+    result["person"] = request.json
+    return(result)
 
 #TODO: add a POST endpoint for adding people 
 @app.route('/add', methods=['POST'])
@@ -53,7 +57,10 @@ def insert():
 
     cur.execute("INSERT INTO people VALUES (NULL, ?, ?, ?)", params)
     conn.commit()
-    return(jsonify(request.json))
+    result = {"message" : "succcess"}
+
+    result["person"] = request.json
+    return(result)
 
 #TODO: add a DELETE endpoint for removing people 
 @app.route('/remove', methods=['POST'])
@@ -67,7 +74,10 @@ def delete():
     cur.execute(f"DELETE FROM people WHERE id = {person_id}")
     conn.commit()
 
-    return(jsonify(request.json))
+    result = {"message" : "succcess"}
+
+    result["person"] = request.json
+    return(result)
 
 #TODO: add a PUT endpoint for updating people 
 @app.route('/update', methods=['PUT', 'POST'])
@@ -84,6 +94,9 @@ def update():
     cur.execute(f"UPDATE people SET name = \"{name}\" WHERE id = {person_id}")
     conn.commit()
 
-    return(jsonify(request.json))
+    result = {"message" : "succcess"}
+
+    result["person"] = request.json
+    return(result)
 
 app.run()
